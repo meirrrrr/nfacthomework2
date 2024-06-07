@@ -6,12 +6,16 @@ import { useEffect } from "react";
 const task = { id: 1, text: "Todo Test", completed: false };
 
 export default function Home() {
-  const [tasks, setTasks] = useState(() => {
-    const localTasks = localStorage.getItem("tasks");
-    return localTasks ? JSON.parse(localTasks) : [];
-  });
+  const [tasks, setTasks] = useState([]);
   const [newTaskText, setNewTaskText] = useState("");
   const [filter, setFilter] = useState("all");
+
+  useEffect(() => {
+    const storedTasks = localStorage.getItem("tasks");
+    if (storedTasks) {
+      setTasks(JSON.parse(storedTasks));
+    }
+  }, []);
 
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(tasks));
